@@ -1,33 +1,22 @@
 package automation.module;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import automation.staticValue.AutoStatic;
 import automation.webdriver.MyFirefoxDriver;
 
 public class AutomationMain {
 	
+	private static final ArrayList<String> recipeHTMLStringArr = new ArrayList<String>();
 	private static WebDriver driver;
+	private static String checkUrl;
+	private static String recipeHtmlSource;
 	
 	public static void main(String[] args) {
 		operateAutomaticDataGathering();
@@ -35,13 +24,17 @@ public class AutomationMain {
 	
 	public static void operateAutomaticDataGathering() {
 		
-		//System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.DAESUB_FIREFOX);
-		
-		//driver = new MyFirefoxDriver();
+		// WebDriver종류, 해당 WebDriver 저장경로 Setting.
+		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.DAESUB_FIREFOX);
+		driver = new MyFirefoxDriver();
 		
 		/*
+		 * 네이버로 접속해서 해먹남녀로 들어가서 레시피 리스트 보여주기까지 과정.
+		 * 보여주기 위한 용도니까 주석처리해도 괜찮음 !!!!
+		 * 
+		 * */
 		driver.get("http://www.naver.com");
-		driver.manage().window().maximize();
+		driver.manage().window().maximize(); // window Size
 		
 		checkPageIsReady();
 		
@@ -57,13 +50,12 @@ public class AutomationMain {
 		
 		checkPageIsReady();
 		
-		// 현재 새로 열린 Page에 포커
+		// 현재 새로 열린 Page에 포커스 
 	    ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
 	    newTab.remove(oldTab);
 	    driver.switchTo().window(newTab.get(0));
 		
 	    checkPageIsReady();
-		
 		
 		clickElement = driver.findElement(By.className("btn_all"));
 		clickElement.click();
@@ -73,12 +65,15 @@ public class AutomationMain {
 		
 		checkPageIsReady();
 		
-		clickElement = driver.findElement(By.className("lst_recipe"));
-		clickElement.sendKeys("");
-		*/
-		sleep(1000);
+		clickElement = driver.findElement(By.className("call_recipe"));
+		clickElement.sendKeys();
+		/*
+		 * 보여주기위한 용도 끝!!!!!!
+		 * 
+		 * */
 		
-		// 리스트에서 레시피 선택하는 부분인데 나중에 구현.
+		
+		// 리스트에서 레시피 선택하는 부분인데 나중에 구현. 진짜 선택하는 거 처럼 보이게 하기위해... 남겨둬보셈.. 
 		/*
 		clickElement = driver.findElement(By.className("lst_recipe"));
 		WebElement recipeElement = null;
@@ -104,55 +99,81 @@ public class AutomationMain {
 		}
 		*/
 		
-		//driver.get("http://haemukja.com/recipes/1");
-		checkURLvalidation("http://haemukja.com/recipes/1");
 		
-		//driver.get("http://haemukja.com/recipes/667");
-		checkURLvalidation("http://haemukja.com/recipes/667");
-		//checkPageIsReady();
+		// 실제 레시피로 접근... Code 시작.
+		// for 문에서 i로 레시피 번호 조절. 
+		for (int i=1; i<=10; i++) {
+			
+			checkUrl = "http://haemukja.com/recipes/" + i;
+			if(checkURLvalidation(checkUrl)) {
+				System.out.println(i + " : OK.");
+				
+				driver.get(checkUrl);
+				checkPageIsReady();
+				
+				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
+				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
+				
+			} else {
+				System.out.println(i + " : No Recipe.");
+			}
+		}
 		
-		//String htmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
-		//System.out.println(htmlSource);
 		
+		// HtmlStringArray 잘 저장 됐는지 출력 부분. 
+		//for(String html:recipeHTMLStringArr) 
+			//System.out.println(html+"\n =================================================");
+		
+
 	}
 	
-	public static void checkURLvalidation(String url) {
+	public static boolean checkURLvalidation(String url) {
 		try {
-			
-			URL u = new URL (url);
-			
-			System.out.println("path : " + u.getRef() );
 		
-			
-			Document doc = Jsoup.connect(url).get();
-			
-			//HttpURLConnection huc =  ( HttpURLConnection )  u.openConnection (); 
-			
-			System.out.println("제목 : " + doc.title() );
-			
-			
-			String check = null;
-		    //Elements metaOgImage = doc.head().select("meta[property=og:description]");
-			Elements metaOgImage = doc.head().select("meta[name=description]");
-		    if (metaOgImage!=null) {
-		    	check = metaOgImage.attr("content");
-		    	System.out.println(check);
-		    } else {
-		    	System.out.println("존재하지 않음");
-		    }
-		    
-			
-			/*String ogImage = getMetaTag(doc, "og:image") 
+			URL u = new URL (url);
+			HttpURLConnection huc =  ( HttpURLConnection )  u.openConnection (); 
 			
 			huc.setRequestMethod ("GET"); 
 			huc.connect () ; 
-			int code = huc.getResponseCode() ;
-			System.out.println(code);*/
+			sleep(10);
 			
+			int code = huc.getResponseCode();
+			if(code == 200) {
+				
+				if (huc.getURL().toString().equals("http://m.haemukja.com/")) {
+					return false;
+				} else {
+					return true;
+				}
+			} 
+			
+			
+			// 노력의 흔적........
+			/*huc.setRequestMethod ("GET"); 
+			huc.connect () ; 
+			String urlChk = huc.getURL().toString();
+			System.out.println(huc.getURL());*/
+			//if (urlChk.equals(anObject))
+			
+			//Document doc = Jsoup.connect(url).get();
+		
+			//System.out.println("제목 : " + doc.title() );
+			
+			//String check = null;
+			//Elements meta = doc.head().select("meta[property=og:description]");
+			/*Elements meta = doc.select("meta[name=author]");
+		    if (meta!=null) {
+		    	String check = null;
+		    	check = meta.attr("content");
+		    	System.out.println("Content : " + check);
+		    } else {
+		    	System.out.println("존재하지 않음");
+		    }*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public static void checkPageIsReady() {
@@ -165,12 +186,12 @@ public class AutomationMain {
 		}
 
 		// This loop will rotate for 25 times to check If page Is ready after
-		// every 1 second.
+		// every 0.1 second.
 		// You can replace your value with 25 If you wants to Increase or
 		// decrease wait time.
 		for (int i = 0; i < 25; i++) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
