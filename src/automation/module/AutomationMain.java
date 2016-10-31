@@ -3,12 +3,14 @@ package automation.module;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import automation.staticValue.AutoStatic;
+import automation.webCrawling.HamukCrawling;
 import automation.webdriver.MyFirefoxDriver;
 
 public class AutomationMain {
@@ -25,7 +27,7 @@ public class AutomationMain {
 	public static void operateAutomaticDataGathering() {
 		
 		// WebDriver종류, 해당 WebDriver 저장경로 Setting.
-		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.DAESUB_FIREFOX);
+		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.GIHO_FIREFOX);
 		driver = new MyFirefoxDriver();
 		
 		/*
@@ -99,10 +101,10 @@ public class AutomationMain {
 		}
 		*/
 		
-		
+		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=1; i<=10; i++) {
+		for (int i=1; i<=4000; i++) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -113,6 +115,13 @@ public class AutomationMain {
 				
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
+				try {
+					crawling.hamuk(recipeHTMLStringArr.toString());
+					recipeHTMLStringArr.clear();
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+				
 				
 			} else {
 				System.out.println(i + " : No Recipe.");
