@@ -6,7 +6,7 @@ public class AutoStatic {
 	public final static String FIREFOX_DRIVER = "webdriver.gecko.driver";
 	
 	public final static String DAESUB_FIREFOX = "/Users/daesub/Documents/selenium/geckodriver";
-	public final static String GIHO_FIREFOX = "기호야 채워";
+	public final static String GIHO_FIREFOX = "/Users/kwongiho/Downloads/geckodriver";
 	
 	
 
