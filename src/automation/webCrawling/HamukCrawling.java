@@ -79,9 +79,9 @@ public class HamukCrawling {
 						null,
 						null,
 						ingredientList.get(i).getIngredientName(),
-						0,
+						getValue(ingredientList.get(i).getIngredientVolume()),
 						"M",
-						ingredientList.get(i).getIngredientVolume().trim().equals("") ? "-" : ingredientList.get(i).getIngredientVolume()
+						"IUC007"
 					));
 		}
 		RecipeManager manager = new RecipeManager();
@@ -107,6 +107,14 @@ public class HamukCrawling {
 */
 		
 	} 
+	public int getValue(String value) {
+		String val[]=value.split(" ");
+		if(val[0].split("/").length> 1 ) {
+			return 1;
+		}
+		return Integer.parseInt(val[0]);
+		
+	}
 	public ArrayList<CommentDTO> getCommentDTO(String html){
 		Document doc = Jsoup.parse(html);
 		ArrayList<CommentDTO> list = new ArrayList<CommentDTO>();
@@ -167,8 +175,11 @@ public class HamukCrawling {
 		for(Element e :elements) {
 			Iterator<Element> ingredientName = e.getElementsByTag("span").iterator();
 			Iterator<Element> ingredientVolume = e.getElementsByTag("em").iterator();
-			while(ingredientName.hasNext() & ingredientVolume.hasNext()) 
+			while(ingredientName.hasNext() && ingredientVolume.hasNext())  {
+				System.out.println("ingredientName - "+ingredientName.next().text()+"/ ingredientVolum - "+ingredientVolume.next().text());
 				list.add(new IngredientDTO(ingredientName.next().text() , ingredientVolume.next().text() ) );
+				System.out.println("ingredient add");
+			}
 		}
 		return list;
 	}
@@ -237,6 +248,7 @@ public class HamukCrawling {
 			while(imgLink.hasNext()) 
 				list.add(imgLink.next().attr("src"));
 		}
+		System.out.println("ingredientSize - "+list.size());
 		return list;
 	}
 	
@@ -246,7 +258,7 @@ public class HamukCrawling {
 			StringBuilder builder = new StringBuilder();
 			while(scan.hasNextLine()){
 				String txt = scan.nextLine();
-				if(txt.trim().equals("exit"))
+				if(txt.trim().equals("</html>"))
 					break;
 				builder.append(txt+"\n");
 			}

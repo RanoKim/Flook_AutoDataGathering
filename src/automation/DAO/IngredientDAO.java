@@ -76,19 +76,28 @@ public class IngredientDAO {
 			pstmt.setInt(4, ingredientAmount);
 			pstmt.setString(5, ingredientType);
 			pstmt.setString(6, ingredientUnitCode);
+			System.out.println("ingredientCode-"+ingredientCode);
+			System.out.println("recipeCode-"+recipeCode);
+			System.out.println("ingredientName-"+ingredientName);
+			System.out.println("ingredientAmount-"+ingredientAmount);
+			System.out.println("ingredientType-"+ingredientType);
+			System.out.println("ingredientUnitCode-"+ingredientUnitCode);
 
 			row = pstmt.executeUpdate();
-			if (row != 0)
-				dbConnection.getConn().commit();
+			/*if (row != 0)
+				dbConnection.getConn().commit();*/
 		} catch (SQLException se) {
+			se.printStackTrace();
 			System.out.println(se.getMessage());
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			System.out.println(ex.getMessage());
 		} finally {
 			try {
 				if (pstmt != null)
 					pstmt.close();
 			} catch (SQLException se) {
+				se.printStackTrace();
 				System.out.println(se.getMessage());
 			}
 		}
@@ -116,8 +125,8 @@ public class IngredientDAO {
 			pstmt.setString(6, ingredientUnitCode);
 
 			row= pstmt.executeUpdate();
-			if (row != 0)
-				dbConnection.getConn().commit();
+			/*if (row != 0)
+				dbConnection.getConn().commit();*/
 		} catch (SQLException se) {
 			System.out.println(se.getMessage());
 		} catch (Exception ex) {

@@ -157,7 +157,8 @@ public class AutomationMain {
 			} 
 			
 			
-			// 노력의 흔적........
+			// 노력의 흔적.........
+			//고생하셨습니다 형님..............
 			/*huc.setRequestMethod ("GET"); 
 			huc.connect () ; 
 			String urlChk = huc.getURL().toString();

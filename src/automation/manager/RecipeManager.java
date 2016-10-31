@@ -49,6 +49,7 @@ public class RecipeManager {
 		for(IngredientVO ingredientVO:ingredientList)
 		{
 			ingredientVO.setRecipeCode(recipeCode);
+			System.out.println("ingredientVO - "+ingredientVO.toString());
 			System.out.println("ingredient Check : "+ingredientDAO.insertIngredient(ingredientVO));
 		}
 		System.out.println("listL : "+cookingList.size());
