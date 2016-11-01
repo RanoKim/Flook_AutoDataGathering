@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import automation.staticValue.AutoStatic;
+
 public class DBConnection {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost:3306/Flook";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/flook";
 //27.117.242.131
 	static final String USERNAME = "root";
-	static final String PASSWORD = "siddid";
+	//static final String PASSWORD = "siddid";
+	static final String PASSWORD = AutoStatic.MYSQL_PWD;
 	private static DBConnection instance;
 	static {
 		instance = new DBConnection();

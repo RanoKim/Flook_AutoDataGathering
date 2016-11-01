@@ -9,6 +9,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import automation.VO.RecipeRawVO;
+import automation.manager.RecipeRawManager;
 import automation.staticValue.AutoStatic;
 import automation.webCrawling.HamukCrawling;
 import automation.webdriver.MyFirefoxDriver;
@@ -21,13 +23,19 @@ public class AutomationMain {
 	private static String recipeHtmlSource;
 	
 	public static void main(String[] args) {
+		
+		AutoStatic.who("daesub");
+		//AutoStatic.who("giho");
+		
 		operateAutomaticDataGathering();
 	}
 	
 	public static void operateAutomaticDataGathering() {
 		
+
+		
 		// WebDriver종류, 해당 WebDriver 저장경로 Setting.
-		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.GIHO_FIREFOX);
+		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.FIREFOX_PATH);
 		driver = new MyFirefoxDriver();
 		
 		/*
@@ -35,7 +43,7 @@ public class AutomationMain {
 		 * 보여주기 위한 용도니까 주석처리해도 괜찮음 !!!!
 		 * 
 		 * */
-		driver.get("http://www.naver.com");
+		/*driver.get("http://www.naver.com");
 		driver.manage().window().maximize(); // window Size
 		
 		checkPageIsReady();
@@ -68,7 +76,7 @@ public class AutomationMain {
 		checkPageIsReady();
 		
 		clickElement = driver.findElement(By.className("call_recipe"));
-		clickElement.sendKeys();
+		clickElement.sendKeys();*/
 		/*
 		 * 보여주기위한 용도 끝!!!!!!
 		 * 
@@ -101,14 +109,17 @@ public class AutomationMain {
 		}
 		*/
 		
-		HamukCrawling crawling = new HamukCrawling();
+		RecipeRawVO recipeRaw;
+		RecipeRawManager rawMngr = new RecipeRawManager();
+		
+		//HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
 		for (int i=1; i<=4000; i++) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
-				System.out.println(i + " : OK.");
+				System.out.println(i + " : Recipe Exist.");
 				
 				driver.get(checkUrl);
 				checkPageIsReady();
@@ -116,8 +127,12 @@ public class AutomationMain {
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					crawling.hamuk(recipeHTMLStringArr.toString());
-					recipeHTMLStringArr.clear();
+					//crawling.hamuk(recipeHTMLStringArr.toString());
+					//recipeHTMLStringArr.clear();
+					
+					recipeRaw = new RecipeRawVO(null, "RecipeName", "RecipeCompleteImg", checkUrl, "1");
+					rawMngr.insertRecipeRaw(recipeRaw);
+					
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}

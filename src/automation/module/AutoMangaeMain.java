@@ -22,13 +22,17 @@ public class AutoMangaeMain {
 	private static String recipeHtmlSource;
 	
 	public static void main(String[] args) {
+		
+		AutoStatic.who("daesub");
+		//AutoStatic.who("giho");
+
 		operateAutomaticDataGathering();
 	}
 	
 	public static void operateAutomaticDataGathering() {
 		
 		// WebDriver종류, 해당 WebDriver 저장경로 Setting.
-		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.DAESUB_FIREFOX);
+		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.FIREFOX_PATH);
 		driver = new MyFirefoxDriver();
 		
 		/*
