@@ -21,7 +21,7 @@ public class AutoStatic {
 			
 		} else if (user.equals("giho") || user.equals("GIHO") || user.equals("Giho") || user.equals("g") || user.equals("G")) {
 			
-			AutoStatic.FIREFOX_PATH = "/Users/kwongiho/Downloads/geckodriver";
+			FIREFOX_PATH = "/Users/kwongiho/Downloads/geckodriver";
 			MYSQL_PWD = "siddid";
 		}
 	}
