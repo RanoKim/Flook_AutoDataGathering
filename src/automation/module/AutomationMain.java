@@ -13,6 +13,11 @@ import automation.staticValue.AutoStatic;
 import automation.webCrawling.HamukCrawling;
 import automation.webdriver.MyFirefoxDriver;
 
+/**
+ *해먹남
+ * @author kwongiho
+ *
+ */
 public class AutomationMain {
 	
 	private static final ArrayList<String> recipeHTMLStringArr = new ArrayList<String>();
