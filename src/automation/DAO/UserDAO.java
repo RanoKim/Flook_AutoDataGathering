@@ -412,6 +412,39 @@ public class UserDAO {
 		return null;
 				
 	}
+	public String getUserCodeByEmail(String imageLink) {
+		PreparedStatement pstmt = null;
+		String userCode=null;
+		System.out.println(imageLink);
+		try {
+			if(conn==null)
+				System.out.println("conn is null");
+			String sql = "select * from user_tb where user_image=?";
+			pstmt = conn.
+					getConn().
+					prepareStatement(sql);
+			pstmt.setString(1, imageLink);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				userCode=rs.getString("user_code");
+				
+			}
+			if(userCode==null)
+			{
+				return null;
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return userCode;
+	}
 	public String getUserCode(String name) {
 		PreparedStatement pstmt = null;
 		String userCode=null;

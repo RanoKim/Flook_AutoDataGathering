@@ -30,7 +30,7 @@ public class HamukCrawling {
 	public HamukCrawling(){
 		
 	}
-	public void hamuk(String html) throws Exception {
+	public RecipeVO hamuk(String html) throws Exception {
 		//설명리스
 		ArrayList<String> descriptionList = getDescription(html);
 		//레시피 이미지리스
@@ -87,6 +87,8 @@ public class HamukCrawling {
 		RecipeManager manager = new RecipeManager();
 		manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
 		
+		
+		return recipeVO;
 		//IngredientVO ingredientVO = new IngredientVO(null, null,mainIngredient[i], amount, "M", mainIngredientUnit[i]);
 		
 		/*

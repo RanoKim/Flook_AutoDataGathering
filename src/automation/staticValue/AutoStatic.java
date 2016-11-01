@@ -10,7 +10,8 @@ public class AutoStatic {
 	//public final static String DAESUB_FIREFOX = "/Users/daesub/Documents/selenium/geckodriver";
 	//public final static String GIHO_FIREFOX = "/Users/kwongiho/Downloads/geckodriver";
 	
-	public static String MYSQL_PWD = "eo1212";
+	//public static String MYSQL_PWD = "eo1212";
+	public static String MYSQL_PWD = "siddid";
 	
 	public static void who(String user) {
 		

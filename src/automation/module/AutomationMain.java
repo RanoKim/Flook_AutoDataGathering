@@ -8,7 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import automation.VO.RecipeRawVO;
+import automation.VO.RecipeVO;
+import automation.manager.RecipeRawManager;
 import automation.staticValue.AutoStatic;
+import automation.webCrawling.HamukCrawling;
 import automation.webdriver.MyFirefoxDriver;
 
 /**
@@ -25,8 +29,8 @@ public class AutomationMain {
 	
 	public static void main(String[] args) {
 		
-		AutoStatic.who("daesub");
-		//AutoStatic.who("giho");
+		//AutoStatic.who("daesub");
+		AutoStatic.who("giho");
 		
 		operateAutomaticDataGathering();
 	}
@@ -113,7 +117,7 @@ public class AutomationMain {
 		RecipeRawVO recipeRaw;
 		RecipeRawManager rawMngr = new RecipeRawManager();
 		
-		//HamukCrawling crawling = new HamukCrawling();
+		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
 		for (int i=1; i<=4000; i++) {
@@ -128,11 +132,12 @@ public class AutomationMain {
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					//crawling.hamuk(recipeHTMLStringArr.toString());
-					//recipeHTMLStringArr.clear();
+					RecipeVO recipeVO = crawling.hamuk(recipeHTMLStringArr.toString());
+					recipeHTMLStringArr.clear();
 					
-					recipeRaw = new RecipeRawVO(null, "RecipeName", "RecipeCompleteImg", checkUrl, "1");
+					recipeRaw = new RecipeRawVO(null, recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
 					rawMngr.insertRecipeRaw(recipeRaw);
+					
 					
 				} catch(Exception ex) {
 					ex.printStackTrace();
