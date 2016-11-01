@@ -108,11 +108,17 @@ public class HamukCrawling {
 		
 	} 
 	public int getValue(String value) {
-		String val[]=value.split(" ");
-		if(val[0].split("/").length> 1 ) {
-			return 1;
-		}
+		try {
+			String val[]=value.split(" ");
+			if(val[0].split("/").length> 1 ) {
+				return 1;
+			}
 		return Integer.parseInt(val[0]);
+		} catch(Exception ex) {
+			//ex.printStackTrace();
+			System.out.println("Error Happen. msg - "+ex.getMessage());
+		}
+		return 0;
 		
 	}
 	public ArrayList<CommentDTO> getCommentDTO(String html){
@@ -176,8 +182,9 @@ public class HamukCrawling {
 			Iterator<Element> ingredientName = e.getElementsByTag("span").iterator();
 			Iterator<Element> ingredientVolume = e.getElementsByTag("em").iterator();
 			while(ingredientName.hasNext() && ingredientVolume.hasNext())  {
-				System.out.println("ingredientName - "+ingredientName.next().text()+"/ ingredientVolum - "+ingredientVolume.next().text());
-				list.add(new IngredientDTO(ingredientName.next().text() , ingredientVolume.next().text() ) );
+				//System.out.println("ingredientName - "+ingredientName.next().text()+"/ ingredientVolum - "+ingredientVolume.next().text());
+				list.add(new IngredientDTO(ingredientName.next().text() 
+						, ingredientVolume.next().text() ) );
 				System.out.println("ingredient add");
 			}
 		}

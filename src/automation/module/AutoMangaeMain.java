@@ -13,7 +13,11 @@ import org.openqa.selenium.WebElement;
 
 import automation.staticValue.AutoStatic;
 import automation.webdriver.MyFirefoxDriver;
-
+/**
+ * 만개의레시피
+ * @author kwongiho
+ *
+ */
 public class AutoMangaeMain {
 	
 	private static final ArrayList<String> recipeHTMLStringArr = new ArrayList<String>();
@@ -32,6 +36,7 @@ public class AutoMangaeMain {
 	public static void operateAutomaticDataGathering() {
 		
 		// WebDriver종류, 해당 WebDriver 저장경로 Setting.
+
 		System.setProperty(AutoStatic.FIREFOX_DRIVER, AutoStatic.FIREFOX_PATH);
 		driver = new MyFirefoxDriver();
 		
