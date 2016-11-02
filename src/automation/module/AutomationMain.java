@@ -5,9 +5,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
+import automation.DTO.RecipeInfoDTO;
 import automation.VO.RecipeRawVO;
 import automation.VO.RecipeVO;
 import automation.manager.RecipeRawManager;
@@ -29,8 +32,8 @@ public class AutomationMain {
 	
 	public static void main(String[] args) {
 		
-		//AutoStatic.who("daesub");
-		AutoStatic.who("giho");
+		AutoStatic.who("daesub");
+		//AutoStatic.who("giho");
 		
 		operateAutomaticDataGathering();
 	}
@@ -49,7 +52,8 @@ public class AutomationMain {
 		 * 
 		 * */
 		/*driver.get("http://www.naver.com");
-		driver.manage().window().maximize(); // window Size
+		//driver.manage().window().maximize(); // window Size
+		driver.manage().window().setSize(new Dimension(700, 768));
 		
 		checkPageIsReady();
 		
@@ -120,7 +124,7 @@ public class AutomationMain {
 		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=1; i<=4000; i++) {
+		for (int i=22; i<=1000; i++) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -129,13 +133,16 @@ public class AutomationMain {
 				driver.get(checkUrl);
 				checkPageIsReady();
 				
-				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
-				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
+				recipeHtmlSource = "<html>\n" + driver.findElement(By.tagName("html")).getAttribute("innerHTML") + "\n</html>";
+				//recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					RecipeVO recipeVO = crawling.hamuk(recipeHTMLStringArr.toString());
-					recipeHTMLStringArr.clear();
+					//RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource);
+					//recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode(), recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
 					
-					recipeRaw = new RecipeRawVO(null, recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
+					
+					// 1102 발표를 위한 임시 데이터 세팅
+					recipeRaw = new RecipeRawVO(null, crawling.getRecipeInfo(recipeHtmlSource).getRecipeName(), crawling.getImageLink(recipeHtmlSource).get(0), checkUrl, "1");
+					
 					rawMngr.insertRecipeRaw(recipeRaw);
 					
 					
@@ -175,8 +182,7 @@ public class AutomationMain {
 				} else {
 					return true;
 				}
-			} 
-			
+			}
 			
 			// 노력의 흔적.........
 			//고생하셨습니다 형님..............

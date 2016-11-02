@@ -28,7 +28,6 @@ public class HamukCrawling {
 	public static int userNo = 1;
 	
 	public HamukCrawling(){
-		
 	}
 	public RecipeVO hamuk(String html) throws Exception {
 		//설명리스
@@ -57,6 +56,7 @@ public class HamukCrawling {
 		
 		//recipeVO 이게 젤 중요하지..ㅅ
 		RecipeVO recipeVO = new RecipeVO(
+				//codeGenerator2(), // recipeCode
 				null, // recipeCode
 				imageList.get(0), // completeImage
 				recipeInfoDTO.getRecipeName(), // recipeName
@@ -107,7 +107,6 @@ public class HamukCrawling {
 		for(int i=0;i<commentList.size();i++)
 			System.out.println(commentList.get(i));
 */
-		
 	} 
 	public int getValue(String value) {
 		try {
@@ -143,7 +142,6 @@ public class HamukCrawling {
 				
 		}
 		return list;
-		
 	}
 	public RecipeInfoDTO getRecipeInfo(String html) {
 		Document doc = Jsoup.parse(html);
@@ -157,8 +155,7 @@ public class HamukCrawling {
 				userName,
 				recipeName,
 				cookingTime.split(" ")[0]
-				);
-				
+				);	
 	}
 	
 	/**
@@ -220,7 +217,7 @@ public class HamukCrawling {
 		Elements elements = doc.select(".lst_step");
 		for(Element e :elements) {
 			Iterator<Element> description = e.getElementsByTag("p").iterator();
-			while(description.hasNext()) 
+			while(description.hasNext())
 				list.add(description.next().text());
 		}
 		return list;
@@ -259,6 +256,10 @@ public class HamukCrawling {
 		}
 		System.out.println("ingredientSize - "+list.size());
 		return list;
+	}
+	
+	public String codeGenerator2(){
+		return "RC"+System.currentTimeMillis();
 	}
 	
 	public static void main(String[] args) {

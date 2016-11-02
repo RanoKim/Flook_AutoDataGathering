@@ -230,7 +230,7 @@ public class RecipeDAO {
 	
 	
 	public String codeGenerator2(){
-		return "0101UR"+System.currentTimeMillis();
+		return "RC"+System.currentTimeMillis();
 	}
 	public static void main(String[] args)
 	{
