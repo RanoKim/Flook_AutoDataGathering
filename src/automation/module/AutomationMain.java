@@ -51,9 +51,9 @@ public class AutomationMain {
 		 * 보여주기 위한 용도니까 주석처리해도 괜찮음 !!!!
 		 * 
 		 * */
-		/*driver.get("http://www.naver.com");
-		//driver.manage().window().maximize(); // window Size
-		driver.manage().window().setSize(new Dimension(700, 768));
+		driver.get("http://www.naver.com");
+		driver.manage().window().maximize(); // window Size
+		//driver.manage().window().setSize(new Dimension(700, 768));
 		
 		checkPageIsReady();
 		
@@ -68,6 +68,7 @@ public class AutomationMain {
 		clickElement.findElements(By.tagName("a")).get(0).click();
 		
 		checkPageIsReady();
+		sleep(2000);
 		
 		// 현재 새로 열린 Page에 포커스 
 	    ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
@@ -77,6 +78,7 @@ public class AutomationMain {
 	    checkPageIsReady();
 		
 		clickElement = driver.findElement(By.className("btn_all"));
+		System.out.println("btn_all : " + clickElement);
 		clickElement.click();
 		sleep(1000);
 		clickElement = driver.findElement(By.className("btn_search"));
@@ -85,14 +87,14 @@ public class AutomationMain {
 		checkPageIsReady();
 		
 		clickElement = driver.findElement(By.className("call_recipe"));
-		clickElement.sendKeys();*/
+		clickElement.sendKeys();
 		/*
 		 * 보여주기위한 용도 끝!!!!!!
 		 * 
 		 * */
 		
 		
-		// 리스트에서 레시피 선택하는 부분인데 나중에 구현. 진짜 선택하는 거 처럼 보이게 하기위해... 남겨둬보셈.. 
+		// 리스트에서 레시피 선택하는 부분인데 나중에 구현... 남겨둬보셈.. 
 		/*
 		clickElement = driver.findElement(By.className("lst_recipe"));
 		WebElement recipeElement = null;
@@ -118,13 +120,14 @@ public class AutomationMain {
 		}
 		*/
 		
+		
 		RecipeRawVO recipeRaw;
 		RecipeRawManager rawMngr = new RecipeRawManager();
 		
 		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=22; i<=1000; i++) {
+		for (int i=3670; i>3650; i--) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -136,20 +139,17 @@ public class AutomationMain {
 				recipeHtmlSource = "<html>\n" + driver.findElement(By.tagName("html")).getAttribute("innerHTML") + "\n</html>";
 				//recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					//RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource);
-					//recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode(), recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
+					RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource);
+					recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode(), recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
 					
-					
-					// 1102 발표를 위한 임시 데이터 세팅
-					recipeRaw = new RecipeRawVO(null, crawling.getRecipeInfo(recipeHtmlSource).getRecipeName(), crawling.getImageLink(recipeHtmlSource).get(0), checkUrl, "1");
-					
+					// 1114 발표
+					recipeRaw = new RecipeRawVO(null, crawling.getRecipeInfo(recipeHtmlSource).getRecipeName(), crawling.getImageLink(recipeHtmlSource).get(0), checkUrl, "1");		
 					rawMngr.insertRecipeRaw(recipeRaw);
 					
 					
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}
-				
 				
 			} else {
 				System.out.println(i + " : No Recipe.");

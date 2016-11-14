@@ -10,6 +10,7 @@ import automation.VO.RecipeVO;
 public class RecipeRawDAO {
 	
 	private static String INSERT_RECIPE_RAW = "INSERT INTO recipe_raw_tb VALUES(?,?,?,?,?)"; 
+	private static String INSERT_RECIPE_DEV = "INSERT INTO recipe_dev_tb VALUES(?,?,?,?,?)"; 
 	
 	private DBConnection dbConnection;
 	private static RecipeRawDAO dao;
@@ -63,7 +64,8 @@ public class RecipeRawDAO {
 		int row = 0; 
 		try
 		{
-			String sql = INSERT_RECIPE_RAW;
+			//String sql = INSERT_RECIPE_RAW;
+			String sql = INSERT_RECIPE_DEV;
 			System.out.println("recipeRawCode : " +recipeRawCode);
 			
 			Connection conn = dbConnection.getConn();
@@ -107,7 +109,8 @@ public class RecipeRawDAO {
 		int row = 0; 
 		try
 		{
-			String sql = INSERT_RECIPE_RAW;
+			//String sql = INSERT_RECIPE_RAW;
+			String sql = INSERT_RECIPE_DEV;
 			Connection conn = dbConnection.getConn();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,recipeRawCode);

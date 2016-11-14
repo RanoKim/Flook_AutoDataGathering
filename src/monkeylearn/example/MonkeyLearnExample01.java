@@ -1,11 +1,8 @@
 package monkeylearn.example;
 
-import java.util.ArrayList;
-
 import com.monkeylearn.MonkeyLearn;
 import com.monkeylearn.MonkeyLearnException;
 import com.monkeylearn.MonkeyLearnResponse;
-import com.monkeylearn.Tuple;
 
 public class MonkeyLearnExample01 {
 	
