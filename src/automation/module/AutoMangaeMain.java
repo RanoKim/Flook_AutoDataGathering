@@ -104,7 +104,7 @@ public class AutoMangaeMain {
 				
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
-				crawling.crawling(recipeHTMLStringArr.toString());
+				crawling.crawling(recipeHTMLStringArr.toString(),checkUrl);
 				recipeHTMLStringArr.clear();
 				
 			} else {

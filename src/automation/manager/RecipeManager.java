@@ -31,20 +31,20 @@ public class RecipeManager {
 		this.recipeCategoryDAO=RecipeCategoryDAO.getInstance();
 		
 	}
-	public int writeRecipe(RecipeVO recipeVO,PostVO postVO,ArrayList<CookingVO> cookingList,ArrayList<IngredientVO> ingredientList,String[] recipeCategory)
+	public String writeRecipe(RecipeVO recipeVO,PostVO postVO,ArrayList<CookingVO> cookingList,ArrayList<IngredientVO> ingredientList,String[] recipeCategory)
 	{
 		String recipeCode=recipeDAO.insertRecipe(recipeVO);
 		System.out.println("recipeCode Check : "+recipeCode+"\n");
 		if(recipeCode==null)
 		{
-			return 0;
+			return null;
 		}
 		postVO.setRecipeCode(recipeCode);
 		String postCode=postDAO.insertPost(postVO);
 		System.out.println("postCode check : "+postCode+"\n");
 		if(postCode==null)
 		{
-			return 0;
+			return null;
 		}
 		for(IngredientVO ingredientVO:ingredientList)
 		{
@@ -61,7 +61,7 @@ public class RecipeManager {
 		System.out.println("check");
 		System.out.println("RCcheck : "+recipeCategoryDAO.insertCategory(recipeCode, recipeCategory));
 		System.out.println("check2");
-		return 1;
+		return recipeCode;
 	}
 
 	

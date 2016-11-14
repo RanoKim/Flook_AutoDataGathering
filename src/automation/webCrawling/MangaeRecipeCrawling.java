@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import automation.DAO.RecipeUrlDAO;
 import automation.DAO.UserDAO;
 import automation.VO.CookingVO;
 import automation.VO.IngredientVO;
@@ -30,7 +31,7 @@ public class MangaeRecipeCrawling {
 		userManager = new UserManager();
 	}
 	public static int userNo=0;
-	public void crawling(String html){
+	public void crawling(String html,String url){
 		RecipeVO recipeVO = getRecipeInfo(html);
 		System.out.println(recipeVO);
 		ArrayList<IngredientVO> ingredientList = getIngredientInfo(html);
@@ -58,7 +59,11 @@ public class MangaeRecipeCrawling {
 				);
 		
 		RecipeManager manager = new RecipeManager();
-		manager.writeRecipe(recipeVO, postVO, cookingList, ingredientList, recipeCategory);
+		String recipeCode = manager.writeRecipe(recipeVO, postVO, cookingList, ingredientList, recipeCategory);
+		RecipeUrlDAO.getInstance().insertRecipeUrl(recipeCode, url);
+		
+		
+		return ;
 	}
 	public String[] getRecipeCategory(String html){
 		Document doc = Jsoup.parse(html);
@@ -270,7 +275,7 @@ public class MangaeRecipeCrawling {
 				builder.append(txt+"\n");
 			}
 			System.out.println("---------------------");
-			new MangaeRecipeCrawling().crawling(builder.toString());
+			//new MangaeRecipeCrawling().crawling(builder.toString());
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
