@@ -40,20 +40,25 @@ public class RecipeCategoryDAO {
 			String sql = "INSERT INTO recipe_category_tb VALUES(?,?,?,?,?,?,?)";
 			Connection conn = dbConnection.getConn();
 			pstmt=conn.prepareStatement(sql);
-			recipeCategory = new String[5];
-			recipeCategory[0]="CCT001";
-			recipeCategory[1]="ICT001";
-			recipeCategory[2]="KCT003";
-			recipeCategory[3]="SCT001";
-			recipeCategory[4]="MCT001";
+			if(recipeCategory.length<3) {
+				recipeCategory = new String[5];
+				recipeCategory[0]="CCT001";
+				recipeCategory[1]="ICT001";
+				recipeCategory[2]="KCT003";
+				recipeCategory[3]="SCT001";
+				recipeCategory[4]="MCT001";
+				System.out.println("here?????????????????????????????????????");
+			}
+			
 			
 			pstmt.setString(1,recipeCategoryCode);
 			pstmt.setString(2,recipeCode);
-			pstmt.setString(3,recipeCategory[0]);
-			pstmt.setString(4,recipeCategory[1]);
-			pstmt.setString(5,recipeCategory[2]);
-			pstmt.setString(6,recipeCategory[3]); 
-			pstmt.setString(7,recipeCategory[4]); 
+			pstmt.setString(3,"CCT001");
+			pstmt.setString(4,recipeCategory[0]);
+			pstmt.setString(5,recipeCategory[1]);
+			pstmt.setString(6,recipeCategory[2]);
+			pstmt.setString(7,recipeCategory[3]); 
+			 
 			
 			System.out.println(recipeCategoryCode);
 			System.out.println(recipeCode);
