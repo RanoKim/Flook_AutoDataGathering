@@ -127,7 +127,7 @@ public class AutomationMain {
 		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=3670; i>3650; i--) {
+		for (int i=3666; i>3645; i--) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
