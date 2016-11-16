@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import automation.DB.DBConnection;
+import automation.staticValue.AutoStatic;
 
 public class RecipeCategoryDAO {
 	private DBConnection dbConnection;
@@ -40,13 +41,14 @@ public class RecipeCategoryDAO {
 			String sql = "INSERT INTO recipe_category_tb VALUES(?,?,?,?,?,?,?)";
 			Connection conn = dbConnection.getConn();
 			pstmt=conn.prepareStatement(sql);
-			if(recipeCategory.length<3) {
+			//해먹남녀일 경우true로 변경
+			if(AutoStatic.URL_STATUS.equals("haemukja")) {
 				recipeCategory = new String[5];
-				recipeCategory[0]="CCT001";
-				recipeCategory[1]="ICT001";
-				recipeCategory[2]="KCT003";
-				recipeCategory[3]="SCT001";
-				recipeCategory[4]="MCT001";
+				
+				recipeCategory[0]="ICT016";
+				recipeCategory[1]="KCT017";
+				recipeCategory[2]="SCT019";
+				recipeCategory[3]="MCT015";
 				System.out.println("here?????????????????????????????????????");
 			}
 			

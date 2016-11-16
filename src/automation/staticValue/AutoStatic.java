@@ -6,6 +6,7 @@ public class AutoStatic {
 	public final static String FIREFOX_DRIVER = "webdriver.gecko.driver";
 	
 	public static String FIREFOX_PATH = "/Users/daesub/Documents/selenium/geckodriver";
+	public static String URL_STATUS = "www.naver.com";
 	
 	//public final static String DAESUB_FIREFOX = "/Users/daesub/Documents/selenium/geckodriver";
 	//public final static String GIHO_FIREFOX = "/Users/kwongiho/Downloads/geckodriver";

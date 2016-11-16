@@ -32,9 +32,9 @@ public class AutomationMain {
 	
 	public static void main(String[] args) {
 		
-		AutoStatic.who("daesub");
-		//AutoStatic.who("giho");
-		
+		//AutoStatic.who("daesub");
+		AutoStatic.who("giho");
+		AutoStatic.URL_STATUS="haemukja";
 		operateAutomaticDataGathering();
 	}
 	
@@ -127,7 +127,7 @@ public class AutomationMain {
 		HamukCrawling crawling = new HamukCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=3670; i>3650; i--) {
+		for (int i=642; i<3650; i++) {
 			
 			checkUrl = "http://haemukja.com/recipes/" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -139,7 +139,7 @@ public class AutomationMain {
 				recipeHtmlSource = "<html>\n" + driver.findElement(By.tagName("html")).getAttribute("innerHTML") + "\n</html>";
 				//recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource);
+					RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource,checkUrl);
 					recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode(), recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "1");
 					
 					// 1114 발표
