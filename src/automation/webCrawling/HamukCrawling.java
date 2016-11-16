@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import automation.DAO.RecipeUrlDAO;
 import automation.DAO.UserDAO;
 import automation.DTO.CommentDTO;
 import automation.DTO.IngredientDTO;
@@ -29,7 +30,7 @@ public class HamukCrawling {
 	
 	public HamukCrawling(){
 	}
-	public RecipeVO hamuk(String html) throws Exception {
+	public RecipeVO hamuk(String html,String url) throws Exception {
 		//설명리스
 		ArrayList<String> descriptionList = getDescription(html);
 		//레시피 이미지리스
@@ -85,8 +86,8 @@ public class HamukCrawling {
 					));
 		}
 		RecipeManager manager = new RecipeManager();
-		manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
-		
+		String recipeCode = manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
+		RecipeUrlDAO.getInstance().insertRecipeUrl(recipeCode, url);
 		
 		return recipeVO;
 		//IngredientVO ingredientVO = new IngredientVO(null, null,mainIngredient[i], amount, "M", mainIngredientUnit[i]);
@@ -273,7 +274,7 @@ public class HamukCrawling {
 				builder.append(txt+"\n");
 			}
 			System.out.println("---------------------");
-			new HamukCrawling().hamuk(builder.toString());
+			//new HamukCrawling().hamuk(builder.toString());
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -47,16 +47,14 @@ public class PostDAO {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,postCode);
 			pstmt.setString(2,recipeCode);
+			if(userCode==null || userCode.equals(""))
+				userCode="UT1479171540440";
 			pstmt.setString(3,userCode);
 			pstmt.setInt(4,likeCount);
 			pstmt.setInt(5,postHits);
 			pstmt.setString(6,postHashTag);  
-			pstmt.setString(7, "2016-10-3");
-			row=pstmt.executeUpdate();
-			
-			
-			
-			
+			pstmt.setString(7, "2016-11-3");
+
 		}
 		catch(Exception se){
 			se.printStackTrace(); 

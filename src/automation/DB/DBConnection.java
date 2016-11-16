@@ -11,6 +11,7 @@ import automation.staticValue.AutoStatic;
 public class DBConnection {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost:3306/flook";
+	//static final String DB_URL = "jdbc:mysql://kwongiho.iptime.org:3306/flook";
 //27.117.242.131
 	static final String USERNAME = "root";
 	//static final String PASSWORD = "siddid";
@@ -30,6 +31,7 @@ public class DBConnection {
 		try{
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
+			conn.setAutoCommit(false);
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();

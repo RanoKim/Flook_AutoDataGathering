@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import automation.staticValue.AutoStatic;
+import automation.webCrawling.MangaeRecipeCrawling;
 import automation.webdriver.MyFirefoxDriver;
 /**
  * 만개의레시피
@@ -27,8 +28,8 @@ public class AutoMangaeMain {
 	
 	public static void main(String[] args) {
 		
-		AutoStatic.who("daesub");
-		//AutoStatic.who("giho");
+		//AutoStatic.who("daesub");
+		AutoStatic.who("giho");
 
 		operateAutomaticDataGathering();
 	}
@@ -90,9 +91,11 @@ public class AutoMangaeMain {
 	    //시작 //http://www.10000recipe.com/recipe/6855677
 	    
 		// 실제 레시피로 접근... Code 시작.
-		// for 문에서 i로 레시피 번호 조절. 
-		for (int i=6855677; i<=6855690; i++) {
-			
+		// for 문에서 i로 레시피 번호 조절.
+	    //6855677
+	    MangaeRecipeCrawling crawling = new MangaeRecipeCrawling();
+		for (int i=6856263; i<=6860720; i++) {
+			//6855896,6855896,6856179,
 			checkUrl = "http://www.10000recipe.com/recipe/" + i;
 			if(checkURLvalidation(checkUrl)) {
 				System.out.println(i + " : OK.");
@@ -102,6 +105,15 @@ public class AutoMangaeMain {
 				
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
+				try {
+					crawling.crawling(recipeHTMLStringArr.toString(),checkUrl);	
+				} catch(Exception ex) {
+					ex.printStackTrace();
+					
+					continue;
+				}finally {
+					recipeHTMLStringArr.clear();
+				}
 				
 			} else {
 				System.out.println(i + " : No Recipe.");
