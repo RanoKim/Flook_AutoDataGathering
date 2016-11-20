@@ -11,6 +11,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import automation.VO.RecipeRawVO;
+import automation.VO.RecipeVO;
+import automation.manager.RecipeRawManager;
 import automation.staticValue.AutoStatic;
 import automation.webCrawling.MangaeRecipeCrawling;
 import automation.webdriver.MyFirefoxDriver;
@@ -28,8 +31,8 @@ public class AutoMangaeMain {
 	
 	public static void main(String[] args) {
 		
-		//AutoStatic.who("daesub");
-		AutoStatic.who("giho");
+		AutoStatic.who("daesub");
+		// AutoStatic.who("giho");
 
 		operateAutomaticDataGathering();
 	}
@@ -46,6 +49,7 @@ public class AutoMangaeMain {
 		 * 보여주기 위한 용도니까 주석처리해도 괜찮음 !!!!
 		 * 
 		 * */
+		/*
 		driver.get("http://www.naver.com");
 		driver.manage().window().maximize(); // window Size
 		
@@ -77,7 +81,7 @@ public class AutoMangaeMain {
 	    //clickElement.sendKeys("");
 	    
 	    //checkPageIsReady();
-	    
+	    */
 		/*
 		 * 보여주기위한 용도 끝!!!!!!
 		 * 
@@ -93,8 +97,11 @@ public class AutoMangaeMain {
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절.
 	    //6855677
+		RecipeRawVO recipeRaw;
+		RecipeRawManager rawMngr = new RecipeRawManager();
+		
 	    MangaeRecipeCrawling crawling = new MangaeRecipeCrawling();
-		for (int i=6856263; i<=6860720; i++) {
+		for (int i=6856353; i<=6856363; i++) {
 			//6855896,6855896,6856179,
 			checkUrl = "http://www.10000recipe.com/recipe/" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -106,7 +113,12 @@ public class AutoMangaeMain {
 				recipeHtmlSource = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
 				recipeHTMLStringArr.add("<html>\n" + recipeHtmlSource + "\n</html>");
 				try {
-					crawling.crawling(recipeHTMLStringArr.toString(),checkUrl);	
+					
+					RecipeVO recipeVO = crawling.crawling(recipeHTMLStringArr.toString(),checkUrl);
+					
+					recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode() , recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "ma");		
+					rawMngr.insertRecipeRaw(recipeRaw);
+					
 				} catch(Exception ex) {
 					ex.printStackTrace();
 					

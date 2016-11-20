@@ -57,27 +57,30 @@ public class HamukCrawling {
 		
 		//recipeVO 이게 젤 중요하지..ㅅ
 		RecipeVO recipeVO = new RecipeVO(
-				//codeGenerator2(), // recipeCode
-				null, // recipeCode
+				codeGenerator2(), // recipeCode
+				//null, // recipeCode
 				imageList.get(0), // completeImage
 				recipeInfoDTO.getRecipeName(), // recipeName
 				" ", // recipeDescription
 				Integer.parseInt(standardPerson.substring(0, 1)),
 				recipeInfoDTO.getCookingTime(),
 				"-"); // personNum
-		
+		String recipeCode = recipeVO.getRecipeCode();
 		// postVO 를 만들어야 해..
-		PostVO postVO = new PostVO(null, null, userCode, 0, 0, "-", postDate);
+		//PostVO postVO = new PostVO(null, null, userCode, 0, 0, "-", postDate);
+		PostVO postVO = new PostVO(recipeCode, null, userCode, 0, 0, "-", postDate);
 		
 		//cookingList를 만들어야 해..
 		ArrayList<CookingVO> cookingList = new ArrayList<CookingVO>();
 		for(int i=0;i<imageList.size();i++)
-			cookingList.add( new CookingVO(null, null, i, imageList.get(i), descriptionList.get(i)) );
+			//cookingList.add( new CookingVO(null, null, i, imageList.get(i), descriptionList.get(i)) );
+			cookingList.add( new CookingVO(recipeCode, null, i, imageList.get(i), descriptionList.get(i)) );
 		
 		ArrayList<IngredientVO> ingredientVOList = new ArrayList<IngredientVO>();
 		for(int i=0;i<ingredientList.size();i++ ){
 			ingredientVOList.add(new IngredientVO(
-						null,
+						recipeCode,
+					//null,
 						null,
 						ingredientList.get(i).getIngredientName(),
 						getValue(ingredientList.get(i).getIngredientVolume()),
@@ -86,8 +89,10 @@ public class HamukCrawling {
 					));
 		}
 		RecipeManager manager = new RecipeManager();
-		String recipeCode = manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
+		//String recipeCode = manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
+		manager.writeRecipe(recipeVO, postVO, cookingList, ingredientVOList, new String[]{"-","-"});
 		RecipeUrlDAO.getInstance().insertRecipeUrl(recipeCode, url);
+		
 		
 		return recipeVO;
 		//IngredientVO ingredientVO = new IngredientVO(null, null,mainIngredient[i], amount, "M", mainIngredientUnit[i]);

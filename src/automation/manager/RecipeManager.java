@@ -39,13 +39,13 @@ public class RecipeManager {
 		{
 			return null;
 		}
-		postVO.setRecipeCode(recipeCode);
+		/*postVO.setRecipeCode(recipeCode);
 		String postCode=postDAO.insertPost(postVO);
 		System.out.println("postCode check : "+postCode+"\n");
 		if(postCode==null)
 		{
 			return null;
-		}
+		}*/
 		for(IngredientVO ingredientVO:ingredientList)
 		{
 			ingredientVO.setRecipeCode(recipeCode);

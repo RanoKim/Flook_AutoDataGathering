@@ -14,7 +14,7 @@ public class RecipeRawManager {
 	public int insertRecipeRaw(RecipeRawVO recipeRawVO) {
 		
 		String recipeCode=recipeRawDAO.insertRecipeRaw(recipeRawVO);
-		System.out.println("recipeCode Check : "+recipeCode+"\n");
+		System.out.println("recipeDEVCode Check : "+recipeCode+"\n");
 		if (recipeCode == null)
 			return 0;
 		

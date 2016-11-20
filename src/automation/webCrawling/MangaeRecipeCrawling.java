@@ -31,7 +31,7 @@ public class MangaeRecipeCrawling {
 	}
 	public static int userNo = 0;
 
-	public void crawling(String html, String url) {
+	public RecipeVO crawling(String html, String url) {
 		RecipeVO recipeVO = getRecipeInfo(html);
 		System.out.println(recipeVO);
 		ArrayList<IngredientVO> ingredientList = getIngredientInfo(html);
@@ -55,7 +55,8 @@ public class MangaeRecipeCrawling {
 		String recipeCode = manager.writeRecipe(recipeVO, postVO, cookingList, ingredientList, recipeCategory);
 		RecipeUrlDAO.getInstance().insertRecipeUrl(recipeCode, url);
 
-		return;
+		recipeVO.setRecipeCode(recipeCode);
+		return recipeVO;
 	}
 
 	public String[] getRecipeCategory(String html) {

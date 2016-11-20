@@ -39,21 +39,21 @@ public class RecipeRawDAO {
 	
 	public String insertRecipeRaw(RecipeRawVO recipeRawVO)
 	{
+		
 		String recipeRawCode=recipeRawVO.getRecipeCode();
 		String recipeName=recipeRawVO.getRecipeName();
 		String completeImage=recipeRawVO.getCompleteImage();
 		String recipeRawLink=recipeRawVO.getRecipeRawLink();
 		String platform=recipeRawVO.getPlatform();
-	
-		if(recipeRawCode!=null)
-		{
-			return this.insertRecipe(recipeRawCode, completeImage, recipeName, recipeRawLink, platform);
-		}
-		else
+		
+		//if(recipeRawCode!=null) {
+		return this.insertRecipe(recipeRawCode, recipeName, completeImage, recipeRawLink, platform);
+		//}
+		/*else
 		{
 			System.out.println(recipeRawVO);
 			return this.insertRecipe(recipeName, completeImage, recipeRawLink, platform);
-		}
+		}*/
 	}
 	public String insertRecipe(String recipeName, String completeImage, String recipeRawLink, String platform)
 	{
@@ -65,7 +65,8 @@ public class RecipeRawDAO {
 		try
 		{
 			//String sql = INSERT_RECIPE_RAW;
-			String sql = INSERT_RECIPE_DEV;
+			//String sql = INSERT_RECIPE_DEV;
+			String sql = "INSERT INTO recipe_dev_tb VALUES(?,?,?,?,?)";
 			System.out.println("recipeRawCode : " +recipeRawCode);
 			
 			Connection conn = dbConnection.getConn();
@@ -105,14 +106,17 @@ public class RecipeRawDAO {
 	}
 	public String insertRecipe(String recipeRawCode,String recipeName,String completeImage, String recipeRawLink, String platform)
 	{
+		//System.out.println("@!@#!@#!@#!@# recipeRawCode :::  " + recipeRawCode);
 		PreparedStatement pstmt=null;
 		int row = 0; 
 		try
 		{
 			//String sql = INSERT_RECIPE_RAW;
-			String sql = INSERT_RECIPE_DEV;
+			//String sql = INSERT_RECIPE_DEV;
+			String sql = "INSERT INTO recipe_dev_tb VALUES(?,?,?,?,?)";
 			Connection conn = dbConnection.getConn();
 			pstmt=conn.prepareStatement(sql);
+			//System.out.println("@!@#!@#!@#!@# recipeRawCode :::  " + recipeRawCode);
 			pstmt.setString(1,recipeRawCode);
 			pstmt.setString(2,recipeName);
 			pstmt.setString(3,completeImage);
@@ -120,11 +124,12 @@ public class RecipeRawDAO {
 			pstmt.setString(5,platform);
 			
 			row=pstmt.executeUpdate();
-			if(row!=0)
+			conn.commit(); 
+			/*if(row!=0)
 			{
 				conn.commit(); 
 			}
-
+*/
 		}
 		catch(Exception se){
 			System.out.println(se.getMessage());
@@ -141,7 +146,7 @@ public class RecipeRawDAO {
 		{ 
 			return recipeRawCode;
 		}			
-		return null; 	
+		return recipeRawCode; 	
 	}
 
 }
