@@ -31,7 +31,7 @@ public class RecipeManager {
 		this.recipeCategoryDAO=RecipeCategoryDAO.getInstance();
 		
 	}
-	public String writeRecipe(RecipeVO recipeVO,PostVO postVO,ArrayList<CookingVO> cookingList,ArrayList<IngredientVO> ingredientList,String[] recipeCategory)
+	public synchronized String writeRecipe(RecipeVO recipeVO,PostVO postVO,ArrayList<CookingVO> cookingList,ArrayList<IngredientVO> ingredientList,String[] recipeCategory)
 	{
 		String recipeCode=recipeDAO.insertRecipe(recipeVO);
 		System.out.println("recipeCode Check : "+recipeCode+"\n");
