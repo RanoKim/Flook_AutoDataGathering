@@ -46,8 +46,8 @@ public class AutoNaverRecipeMain {
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
 		// 100 개 !!!! 
-		for (int i=1990000; i<1990200; i+=2) {
-			//1990200
+		for (int i=1990000; i<1993000; i+=500) {
+			//1990000 ~ 1993000
 			checkUrl = "http://terms.naver.com/entry.nhn?docId=" + i;
 			if(checkURLvalidation(checkUrl)) {
 				
