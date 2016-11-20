@@ -5,17 +5,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import automation.DTO.RecipeInfoDTO;
 import automation.VO.RecipeRawVO;
 import automation.VO.RecipeVO;
 import automation.manager.RecipeRawManager;
 import automation.staticValue.AutoStatic;
 import automation.webCrawling.HamukCrawling;
+import automation.webCrawling.NaverCrawling;
 import automation.webdriver.MyFirefoxDriver;
 
 public class AutoNaverRecipeMain {
@@ -26,8 +24,8 @@ public class AutoNaverRecipeMain {
 	private static String recipeHtmlSource;
 	
 	public static void main(String[] args) {
-		AutoStatic.who("daesub");
-		//AutoStatic.who("giho");
+		//AutoStatic.who("daesub");
+		AutoStatic.who("giho");
 		AutoStatic.URL_STATUS="haemukja";
 		operateAutomaticDataGathering();
 	}
@@ -42,7 +40,7 @@ public class AutoNaverRecipeMain {
 		RecipeRawVO recipeRaw;
 		RecipeRawManager rawMngr = new RecipeRawManager();
 		
-		HamukCrawling crawling = new HamukCrawling();
+		final NaverCrawling crawling = new NaverCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
 		// 100 개 !!!! 
@@ -59,6 +57,12 @@ public class AutoNaverRecipeMain {
 				recipeHtmlSource = "<html>\n" + driver.findElement(By.tagName("html")).getAttribute("innerHTML") + "\n</html>";
 				System.out.println(recipeHtmlSource);
 				try {
+					new Thread() {
+						public void run(){
+							RecipeVO recipeVO = crawling.crawling(recipeHtmlSource,checkUrl); 
+						}
+					}.start();
+					
 					// 기호야 여기부부분 채워줘... crawling 후에 리턴값은 RecipeVO 으로 해줘!!
 					/*
 					RecipeVO recipeVO = crawling.hamuk(recipeHtmlSource,checkUrl);
