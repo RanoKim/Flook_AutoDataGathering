@@ -16,7 +16,7 @@ import automation.VO.RecipeVO;
 import automation.manager.RecipeManager;
 
 public class NaverCrawling {
-	public static String userCode = "UT1479171540440";
+	public static String userCode = "UT1479473135646";
 	public RecipeVO crawling(String html,String url){
 		GregorianCalendar gc = new GregorianCalendar();
 		SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd HH:mm");

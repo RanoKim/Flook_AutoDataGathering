@@ -24,8 +24,8 @@ public class AutoNaverRecipeMain {
 	private static String recipeHtmlSource;
 	
 	public static void main(String[] args) {
-		//AutoStatic.who("daesub");
-		AutoStatic.who("giho");
+		AutoStatic.who("daesub");
+		//AutoStatic.who("giho");
 		AutoStatic.URL_STATUS="haemukja";
 		operateAutomaticDataGathering();
 	}
@@ -37,14 +37,14 @@ public class AutoNaverRecipeMain {
 		driver = new MyFirefoxDriver();
 		
 		
-		RecipeRawVO recipeRaw;
+		//RecipeRawVO recipeRaw;
 		RecipeRawManager rawMngr = new RecipeRawManager();
 		
 		final NaverCrawling crawling = new NaverCrawling();
 		// 실제 레시피로 접근... Code 시작.
 		// for 문에서 i로 레시피 번호 조절. 
 		// 100 개 !!!! 
-		for (int i=1990000; i<1993000; i+=500) {
+		for (int i=1990007; i<1991530; i+=7) {
 			//1990000 ~ 1993000
 			checkUrl = "http://terms.naver.com/entry.nhn?docId=" + i;
 			if(checkURLvalidation(checkUrl)) {
@@ -59,7 +59,9 @@ public class AutoNaverRecipeMain {
 				try {
 					new Thread() {
 						public void run(){
-							RecipeVO recipeVO = crawling.crawling(recipeHtmlSource,checkUrl); 
+							RecipeVO recipeVO = crawling.crawling(recipeHtmlSource,checkUrl);
+							RecipeRawVO recipeRaw = new RecipeRawVO(recipeVO.getRecipeCode() , recipeVO.getRecipeName(), recipeVO.getCompleteImage(), checkUrl, "naver");			
+							rawMngr.insertRecipeRaw(recipeRaw);
 						}
 					}.start();
 					

@@ -201,6 +201,7 @@ public class CookingDAO {
 	      Random randomGenerator = new Random(); 
 	      return dTime+"0401UC"+randomGenerator.nextInt(1000)+System.currentTimeMillis();
 	}
+	
 	public LinkedList<CookingVO> searchCookingList(String recipeCode)
 	{
 

@@ -2,8 +2,12 @@ package automation.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 
 import automation.DB.DBConnection;
+import automation.VO.CookingVO;
 import automation.VO.RecipeVO;
 
 public class RecipeDAO {
@@ -254,4 +258,49 @@ public class RecipeDAO {
 		int b=100;
 		System.out.println(Integer.toString(b));
 	}
+	
+	public RecipeVO getRecipe(String recipeCode)
+	{
+
+		PreparedStatement pstmt = null;
+		RecipeVO recipeVO=null;
+		
+		try {
+			String sql = "SELECT * FROM recipe_tb WHERE recipe_code=?";
+			Connection conn = dbConnection.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, recipeCode); 
+
+			ResultSet rs = pstmt.executeQuery();
+		
+			 
+			if (rs.next()) { 
+				 recipeCode=rs.getString("cooking_code");
+				 String completeImage=rs.getString("complete_image");
+				 String recipeName=rs.getString("recipe_name");
+				 String recipeDescription=rs.getString("recipe_description");
+				 int personNumber=rs.getInt("person_number");
+				 String cookingTime=rs.getString("cooking_time");
+				 String cookingLevel=rs.getString("cooking_level");
+				
+				 recipeVO=new RecipeVO(recipeCode, completeImage, recipeName, recipeDescription, personNumber, cookingTime, cookingLevel);
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		if(recipeVO != null)
+		{
+			return recipeVO;
+		}
+		return null;
+	}
+	
 }
